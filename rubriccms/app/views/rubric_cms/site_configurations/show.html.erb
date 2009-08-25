@@ -1,0 +1,29 @@
+<%- title_content "Site Configuration" -%>
+
+<fieldset class="form_container">
+  <legend>Details</legend>
+
+  <fieldset>
+    <label>Site Name:</label><br />
+    <div class="faux_field"><%=h @site_configuration.site_name -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Default meta description:</label><br />
+    <div class="faux_field"><%=h @site_configuration.default_meta_description -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Default meta keywords:</label><br />
+    <div class="faux_field"><%=h @site_configuration.default_meta_keywords -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Include site section in window title:</label><br />
+    <div class="faux_field"><%=h @site_configuration.include_site_section_in_window_title -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Window title separator:</label><br />
+    <div class="faux_field"><%=h @site_configuration.window_title_separator -%></div>
+  </fieldset>
+</fieldset>
+
+<%= link_to 'Edit', edit_site_configuration_path(@site_configuration), :class => 'button' -%>
+<%= link_to 'Back to Site Configurations', site_configurations_path, :class => 'button' -%>

@@ -1,0 +1,64 @@
+To Do
+
+  General
+  
+    Generic breadcrumbs method to generate HTML for breadcrumbs
+    Include a layout file for illustrative purposes
+    Abstract TinyMCE configuration
+    Abstract authorization
+    For links, add other options to rel attribute
+    Can <%= include_tiny_mce_if_needed %> be added to page body?
+    Remove lightbox crap
+    Abstract 404 handling
+    Write tests for lib
+  
+  Base
+  
+  
+  Extensions
+  
+    Remove lightbox crap from tag_for_flash
+    Add flags for displaying preview image, PDF icon to tag_for_pdf
+    
+  Media Assets
+
+    √ Config option for MAX_MB_FILE_SIZE
+
+  ImageAsset
+  
+    Config options for Paperclip options
+    Add alt_text attribute
+    Add alt_text value to TinyMCE media selector and image_asset_tag
+  
+  SiteConfiguration
+  
+    Max file sizes missing from CRUD
+    
+  SiteSection
+  
+    Add default_meta_description attribute
+    Add default_meta_keywords attribute
+    Add sidebar_items method
+  
+  Site
+
+    site_map_items
+  
+  Site Page
+
+    Add breadcrumbs method
+    In admin view, show # and list of inbound, outbound links
+    
+  rubric_cms_routes.rb
+    
+    Namespace reorder_sidebar_items
+    Namespace /sitemap/
+    Namespace /sitemap.xml
+
+  MirUtility
+  
+    CRUD links: accept click event for tr; default to show; accept param to set as show/edit
+    
+  Bugs
+  
+    Given site section with foo base url, /foo/i_made_this_up/ shows /foo/ page

@@ -1,0 +1,76 @@
+/* @override 
+	http://emeritus.local:3000/stylesheets/audit.css?1243896124
+	http://emeritus.local:3000/stylesheets/audit.css?1243896333
+	http://emeritus.local:3000/stylesheets/audit.css?1243898118
+	http://emeritus.local:3000/stylesheets/audit.css?1243979964
+*/
+
+body {
+	color: #562205;
+	font-family: Arial, sans-serif;
+	font-size: 11px;
+	color: #333333;
+	min-width: 930px;
+	background: #eeeeee;
+}
+
+a.close_link {
+	float: left;
+	color: #ffffff;
+	text-decoration: none;
+	padding: .25em;	
+	background: #333333;
+	width: 1.25em;
+	text-align: center;
+	border: 1px solid #444444;
+}
+
+div#audit_header {
+ 	background: #000000;
+ 	padding: .5em;
+ 	color: #eeeeee;
+ 	height: 2em;
+}
+
+div#audit_header h1 {
+	float: left;
+	padding: 0em;
+	margin: 0em;
+	font-family: Arial, Sans-Serif;
+	font-size: 1em;
+	font-weight: bold;
+	margin: .5em 0em .5em .5em;
+}
+
+div.change_block {
+	margin: 2em;
+	border: 1px solid #aaaaaa;
+}
+
+h2.change_block_header {
+	background: #aaaaaa;
+	padding: .5em;
+	margin: 0em;
+	color: #000000;
+	font-family: Arial, Sans-Serif;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+h3.change_block_header {
+	background: #eeeeee;
+	padding: .5em;
+	border-top:  1px solid #aaaaaa;
+	border-bottom:  1px solid #aaaaaa;
+	margin: 0em;
+	color: #000000;
+	font-family: Arial, Sans-Serif;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+
+div.change_block_contents {
+	background: #ffffff;
+	padding: 2em;
+}

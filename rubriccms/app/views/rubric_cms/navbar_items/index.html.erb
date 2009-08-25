@@ -1,0 +1,13 @@
+<%- title_content 'Manage Main Navigation' -%>
+
+<%- if @navbar_items.empty? -%>
+  <p><em>No main navigation items have been created yet.</em></p>
+<%- else -%>
+  <h2>Top-Level Navigation Items</h2>
+  <p>To manage sub-navigation menus, click 'Edit' next to the appropriate top-level navigation item.</p>
+  <%= render 'index' -%>
+<%- end -%>
+
+<br />
+
+<%= link_to 'New Main Navigation Item', new_navbar_item_path, :class => 'button' -%>

@@ -1,0 +1,62 @@
+<%- title_content "Site Section '#{@site_section.name}'" -%>
+
+<fieldset class="form_container">
+  <%= legend_tag "Details" -%>
+
+  <div class="form_column">
+    <fieldset>
+      <label>Name:</label><br />
+      <div class="faux_field"><%=h @site_section.name -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Root URL:</label><br />
+      <div class="faux_field"><%=h @site_section.root_url -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Status:</label><br />
+      <div class="faux_field"><%=h @site_section.active? ? "Active" : "Inactive" -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Default Meta Description:</label><br />
+      <div class="faux_field"><%=h @site_section.default_meta_description -%></div>
+    </fieldset>
+  </div>
+  <div class="form_column">
+    <fieldset>
+      <label># of Pages:</label><br />
+      <div class="faux_field"><%=h @site_section.site_pages.count -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Navigation Sidebar:</label><br />
+      <div class="faux_field"><%=h @site_section.sidebar_enabled ? "Enabled" : "Disabled" -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Main Navigation Menu:</label><br />
+      <div class="faux_field"><%=h @site_section.navbar_enabled ? "Enabled" : "Disabled" -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Default Meta Keywords:</label><br />
+      <div class="faux_field"><%=h @site_section.default_meta_keywords -%></div>
+    </fieldset>
+  </div>
+</fieldset>
+
+<%= link_to 'Edit Details', edit_site_section_path(@site_section), :class => 'button' -%>
+<%= link_to 'Back', site_sections_path, :class => 'button' -%>
+
+<br style="clear: both;" />
+
+<%= render '/rubric_cms/site_pages/index' -%>
+
+<h2>Main Navigation Menu</h2>
+
+<%- if ! @site_section.navbar_enabled -%>
+  <p>The main navigation menu is disabled for this section. You can also manually add or edit navigation items, but they will not be displayed. To enable the main navigation menu, click the "Edit Details" button above.</p>
+<%- elsif ! @site_section.root_page_navbar_link -%>
+  <p>The main navigation menu is enabled for this section. Newly created pages will automatically be added to the navigation menu. To disable the main navigation menu, click the "Edit Details" button above.</p>
+<%- elsif @site_section.root_page_navbar_link -%>
+  <p>The main navigation menu is enabled for this section, so all newly created pages will automatically be added to the navigation menu. You can also manually add or edit the navigation menu items using the "Edit Navigation Menu" button below. To disable the main navigation menu, click the "Edit Details" button above.</p>
+  <%= link_to 'Edit Navigation Menu', edit_navbar_item_path(@site_section.root_page_navbar_link), :class => 'button' -%><br style="clear: both;" />
+<%- end -%>
+
+<%= render '/rubric_cms/sidebar_items/index' -%>

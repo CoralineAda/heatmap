@@ -1,0 +1,29 @@
+<%- title_content "Sidebar Item" -%>
+
+<fieldset class="form_container">
+  <%= legend_tag "Details" -%>
+
+  <fieldset>
+    <label>Link text:</label><br />
+    <div class="faux_field"><%=h @sidebar_item.link_text -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Mouseover Text:</label><br />
+    <div class="faux_field"><%=h @sidebar_item.link_title -%></div>
+  </fieldset>
+  <fieldset>
+    <label>URL:</label><br />
+    <div class="faux_field"><%=h @sidebar_item.site_page ? @sidebar_item.site_page.url : @sidebar_item.url -%></div>
+  </fieldset>
+  <fieldset>
+    <label>Page:</label><br />
+    <div class="faux_field"><%=h @sidebar_item.site_page ? @sidebar_item.site_page.page_title : '-' -%></div>
+  </fieldset>
+  <fieldset>
+    <label>No-follow:</label><br />
+    <div class="faux_field"><%=h @sidebar_item.nofollow ? 'Yes' : 'No' -%></div>
+  </fieldset>
+</fieldset>
+
+<%= link_to 'Edit', edit_site_section_sidebar_item_path(@site_section, @sidebar_item), :class => 'button' -%>
+<%= link_to 'Back', site_section_path(@site_section), :class => 'button' -%>

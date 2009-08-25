@@ -1,0 +1,51 @@
+<%- title_content "Flash Movie" -%>
+
+<fieldset class="form_container">
+  <%= legend_tag "Details" -%>
+
+  <div class="form_column">
+
+    <fieldset>
+      <label>Name:</label><br />
+      <div class="faux_field"><%=h @flash_asset.name -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Description:</label><br />
+      <div class="faux_field"><%=h @flash_asset.description -%></div>
+    </fieldset>
+    <fieldset>
+      <label>File name:</label><br />
+      <div class="faux_field"><%=h @flash_asset.media_file_name -%></div>
+    </fieldset>
+    <fieldset>
+      <label>URL:</label><br />
+      <div class="faux_field"><%=h MediaAsset.canonical_url(@flash_asset.media.url) -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Content type:</label><br />
+      <div class="faux_field"><%=h @flash_asset.media_content_type -%></div>
+    </fieldset>
+    <fieldset>
+      <label>File size:</label><br />
+      <div class="faux_field"><%=h number_to_human_size(@flash_asset.media_file_size) -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Updated at:</label><br />
+      <div class="faux_field"><%=h @flash_asset.media_updated_at.to_s(:short_date_time) -%></div>
+    </fieldset>
+
+  </div>
+  
+  <div class="form_column">
+    <%- if @flash_asset && @flash_asset.media_file_name -%>
+      <div class="media_preview">
+        <%= tag_for_flash(@flash_asset) -%>
+        <p class="media_caption"><%= @flash_asset.media_file_name -%></p>
+      </div>
+    <%- end -%>
+  </div>
+
+</fieldset>
+
+<%= link_to 'Edit', edit_flash_asset_path(@flash_asset), :class => 'button' -%>
+<%= link_to 'Back to Media Assets', media_assets_path, :class => 'button' -%>

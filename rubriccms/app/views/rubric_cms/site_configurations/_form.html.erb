@@ -1,0 +1,32 @@
+<%- form_for(@site_configuration) do |f| -%>
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <legend>About This Site Configuration</legend>
+
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Site Name', 'site_name', 'The name of this site or application. This name will be displayed as part of the window title.' %>
+      <%= f.text_field :site_name -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Default Meta Description', 'default_meta_description', 'Default content that will be used for a page that has no meta description specified. This description will help search engines understand what the page is about.' %>
+      <%= f.text_area :default_meta_description -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Default Meta Keywords', 'default_meta_keywords', 'Default keywords that will be used for a page that has no meta keywords specified. Enter as a comma-separated list of keywords. These keywords will help search engines understand what the page is about.' %>
+      <%= f.text_area :default_meta_keywords -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Window Title Separator', 'window_title_separator', 'Specifies the character (or string) that should be used to separate elements in your window title. For example, specifying ": " would result in a window title like Page Name: Page Section: My Site Name' %>
+      <%= f.text_field :window_title_separator -%>
+    </fieldset>
+    <fieldset class="inline_label">
+      <%= tag_for_label_with_inline_help 'Window Title Content', 'include_site_section_in_window_title', 'Indicate whether the name of a page\'s site section should be used as part of the window title.' %>
+      <%= f.check_box :include_site_section_in_window_title -%>
+      <label class="inline">Include site section name</label>
+    </fieldset>
+  </fieldset>
+
+  <%= f.submit 'Save', :class => 'button' -%>
+  <%= link_to 'Cancel', site_configurations_path, :class => 'button' -%>
+<%- end -%>

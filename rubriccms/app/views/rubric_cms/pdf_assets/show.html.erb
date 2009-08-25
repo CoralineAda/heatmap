@@ -1,0 +1,51 @@
+<%- title_content "PDF Document" -%>
+
+<fieldset class="form_container">
+  <%= legend_tag "Details" -%>
+
+  <div class="form_column">
+
+    <fieldset>
+      <label>Name:</label><br />
+      <div class="faux_field"><%=h @pdf_asset.name -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Description:</label><br />
+      <div class="faux_field"><%=h @pdf_asset.description -%></div>
+    </fieldset>
+    <fieldset>
+      <label>File name:</label><br />
+      <div class="faux_field"><%=h @pdf_asset.media_file_name -%></div>
+    </fieldset>
+    <fieldset>
+      <label>URL:</label><br />
+      <div class="faux_field"><%=h MediaAsset.canonical_url(@pdf_asset.media.url) -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Content type:</label><br />
+      <div class="faux_field"><%=h @pdf_asset.media_content_type -%></div>
+    </fieldset>
+    <fieldset>
+      <label>File size:</label><br />
+      <div class="faux_field"><%=h number_to_human_size(@pdf_asset.media_file_size) -%></div>
+    </fieldset>
+    <fieldset>
+      <label>Updated at:</label><br />
+      <div class="faux_field"><%=h @pdf_asset.media_updated_at.to_s(:short_date_time) -%></div>
+    </fieldset>
+
+  </div>
+  
+  <div class="form_column">
+    <%- if @pdf_asset && @pdf_asset.media_file_name -%>
+      <div class="media_preview">
+        <%= image_tag @pdf_asset.media.url(:thumbnail), :class => :media_thumbnail -%><br />
+        <p class="media_caption"><%= link_to "Download #{@pdf_asset.media_file_name}", @pdf_asset.media.url -%></p>
+      </div>
+    <%- end -%>
+  </div>
+
+</fieldset>
+
+<%= link_to 'Edit', edit_pdf_asset_path(@pdf_asset), :class => 'button' -%>
+<%= link_to 'Back to Media Assets', media_assets_path, :class => 'button' -%>

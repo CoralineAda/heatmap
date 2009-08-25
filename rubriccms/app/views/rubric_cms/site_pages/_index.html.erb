@@ -1,0 +1,43 @@
+<h2>Pages</h2>
+
+<%- if @site_pages.empty? -%>
+  <p><em>No pages have been created in this section yet.</em></p>
+<%- else -%>
+  <table class="standard">
+    <tr>
+      <th><%= sort_link(:site_pages, 'page_title', params) -%></th>
+      <th><%= sort_link(:site_pages, 'url', params) -%></th>
+      <th><%= sort_link(:site_pages, 'state', params) -%></th>
+      <th> </th>
+    </tr>
+  
+  <%- for site_page in @site_pages -%>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <td><%=h site_page.page_title -%></td>
+      <td><%=h site_page.url -%></td>
+      <td><%=h site_page.status -%></td>
+      <td class="crud_links">
+        <%- if site_page.draft? -%>
+          <%- if use_crud_icons -%>
+            <%= link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), site_page_path(site_page, :preview => true, :site_section_id => @site_section), :title => 'Show' -%>
+          <%- else -%>
+            <%= link_to 'Show', site_page_path(site_page, :preview => true, :site_section_id => @site_section) -%>
+          <%- end -%>
+        <%- else -%>
+          <%- if use_crud_icons -%>
+            <%= link_to image_tag('/images/icons/view.png', :class => 'crud_icon'), site_page.url, :title => 'Show' -%>
+          <%- else -%>
+            <%= link_to 'Show', site_page.url -%>
+          <%- end -%>
+        <%- end -%>
+        <%= crud_links_for_nested_resource(@site_section, site_page, 'site_section', 'site_page', [:edit, :delete]) -%>
+      </td>
+    </tr>
+  <%- end -%>
+  </table>
+<%- end -%>
+
+<%= link_to 'New Page', new_site_section_site_page_path(@site_section), :class => 'button' -%>
+
+<br style="clear: both;" />
+

@@ -1,0 +1,24 @@
+<%- title_content 'Site Configurations' -%>
+
+<%- if @site_configurations.empty? -%>
+  <p><em>No site_configurations have been created yet.</em></p>
+<%- else -%>
+  <table class="standard">
+    <tr>
+      <th><%= sort_link('site_configurations', 'site_name', params) -%></th>
+      <th> </th>
+    </tr>
+
+  <%- for site_configuration in @site_configurations -%>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <td><%=h site_configuration.site_name -%></td>
+      <td class="crud_links"><%= crud_links(site_configuration, 'site_configuration', [:show, :edit, :delete]) -%></td>
+      </td>
+    </tr>
+  <%- end -%>
+  </table>
+<%- end -%>
+
+<br />
+
+<%= link_to 'New Site Configuration', new_site_configuration_path, :class => 'button' -%>

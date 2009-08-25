@@ -1,0 +1,42 @@
+<% form_for @flash_asset, :html => { :multipart => true } do |f| %>
+
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Flash Movie" -%>
+
+    <div class="form_column">
+
+      <fieldset>
+        <%= f.label :name -%><br />
+        <%= f.text_field :name -%>
+      </fieldset>
+      <fieldset>
+        <%= f.label :description -%><br />
+        <%= f.text_field :description -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_instructions('File', 'media', ".fla or .swf only, maximum file size of #{FlashAsset::MAX_MB_FILE_SIZE} MB.") -%>
+        <%= f.file_field :media -%>
+      </fieldset>
+
+    </div>
+    
+    <div class="form_column">
+      <%- if @flash_asset && @flash_asset.media_file_name -%>
+        <div class="media_preview">
+          <%= tag_for_flash(@flash_asset) -%>
+          <p class="media_caption"><%= @flash_asset.media_file_name -%></p>
+        </div>
+      <%- end -%>
+    </div>
+
+  </fieldset>
+
+  <%- if @flash_asset.new_record? -%>
+    <%= f.submit 'Upload', :class => 'button' -%>
+  <%- else -%>
+    <%= f.submit 'Save', :class => 'button' -%>
+  <%- end -%>
+  <%= link_to 'Cancel', media_assets_path, :class => 'button' -%>
+<%- end -%>

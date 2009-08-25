@@ -1,0 +1,49 @@
+<%- form_for(@footer_item) do |f| -%>
+  <%= f.error_messages -%>
+  <fieldset class="form_container">
+    <%= legend_tag "About This Footer Link" -%>
+
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Link Text', 'link_text', 'The text that will show as a link.' %>
+      <%= f.text_field :link_text -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Mouseover Text', 'link_title', 'The text that will display when the user mouses over the link. This should be more descriptive than the link text.' %>
+      <%= f.text_field :link_title -%>
+    </fieldset>
+    <fieldset>
+      <label for="footer_item_site_section">Site Section</label><br />
+      <%= f.collection_select :site_section_id, SiteSection.active, :id, :name, :include_blank => ApplicationHelper::SELECT_PROMPT %>
+    </fieldset>
+    <fieldset>
+      <%= f.label :site_page_id, 'Page' -%><br />
+      <%= related_collection_select(:footer_item, :site_page_id, [:footer_item_site_section, :id], SitePage.published, :id, :name, :site_section_id, :include_blank => ApplicationHelper::SELECT_PROMPT) %>
+    </fieldset>
+    <fieldset id="url_field_container" style="display: <%= @footer_item.site_page_id.nil? ? 'block' : 'none' -%>">
+      <%= f.label :url, 'URL' -%><br />
+      <%= f.text_field :url -%>
+    </fieldset>
+    <fieldset class="inline_label">
+      <%= tag_for_label_with_inline_help 'No Follow?', 'foo', 'Enable nofollow if you do not want search engine spiders to follow this link.' %>
+      <%= f.check_box :nofollow -%><%= f.label :nofollow, "Set nofollow", :class => "inline" -%><br /><br />
+    </fieldset>
+  </fieldset>
+
+  <%= f.submit 'Save', :class => 'button' -%>
+  <%= link_to 'Cancel', footer_items_path, :class => 'button' -%>
+<%- end -%>
+
+<script type="text/javascript">
+
+  Event.observe($('footer_item_site_page_id'), 'change', function (){ hideOrShowURLField(); });
+  Event.observe($('footer_item_site_section_id'), 'change', function (){ hideOrShowURLField(); });
+
+  function hideOrShowURLField() {
+    if (($('footer_item_site_page_id').value == "<%= ApplicationHelper::SELECT_PROMPT -%>") || ($('footer_item_site_section_id').value == "")) {
+      $('url_field_container').style.display = "block";
+    } else {
+      $('url_field_container').style.display = "none";
+      $('footer_item_url').value = "";
+    }
+  }
+</script>

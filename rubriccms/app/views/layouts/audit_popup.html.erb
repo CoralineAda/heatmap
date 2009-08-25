@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <title><%= yield(:title) -%></title>
+  <%= stylesheet_link_tag 'core', :media => :all -%>
+  <%= stylesheet_link_tag 'audit', :media => :all -%>
+  <%= javascript_include_tag :defaults, :cache => "cache/all" -%>
+  <%= include_tiny_mce_if_needed %>
+  <%= yield(:head) -%>
+</head>
+
+<body style="font-size: 12px;">
+
+  <%= @content_for_layout -%>
+    
+</body>
+</html>

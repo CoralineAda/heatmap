@@ -1,0 +1,39 @@
+<%- title_content 'Footer Links' -%>
+
+<%- if @footer_items.empty? -%>
+  <p><em>No footer links have been created yet.</em></p>
+<%- else -%>
+
+  <p>To change the order in which the footer links appear, simply drag-and-drop the items below.</p>
+
+  <table class="standard">
+    <thead>
+      <tr>
+          <th><%= sort_link(:footer_items, 'link_text', params) -%></th>
+          <th><%= sort_link(:footer_items, 'link_title', params) -%></th>
+          <th><%= sort_link(:footer_items, 'url', params) -%></th>
+          <th><%= sort_link(:footer_items, 'site_page_id', params) -%></th>
+          <th><%= sort_link(:footer_items, 'nofollow', params) -%></th>
+          <th> </th>
+      </tr>
+    </thead>
+    <tbody id="itemlist">
+      <%- for footer_item in @footer_items -%>
+        <tr class="<%= cycle('odd', 'even') -%>" id="footer_item_<%= footer_item.id -%>" style="cursor: move;">
+          <td><%=h footer_item.link_text -%></td>
+          <td><%=h footer_item.link_title -%></td>
+          <td><%=h footer_item.url -%></td>
+          <td><%=h footer_item.site_page_id -%></td>
+          <td><%=h footer_item.nofollow -%></td>
+          <td class="crud_links"><%= crud_links(footer_item, 'footer_item', [:edit, :delete]) -%></td>
+        </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+<%- end -%>
+
+<br />
+
+<%= link_to 'New Footer Link', new_footer_item_path, :class => 'button' -%>
+
+<%= sortable_element "itemlist", :update => nil, :url => { :action => "reorder"}, :tag => 'tr' -%>

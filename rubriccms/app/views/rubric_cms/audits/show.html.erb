@@ -1,0 +1,14 @@
+<div id="audit_header">
+  <a class="close_link" href="javascript: this.window.close();">X</a>
+  <h1>Version <%= @audit.version -%>, created on <%= @audit.created_at.to_s(:date_time) -%> by <%= @audit.user ? @audit.user.name : '?' -%>
+</div>
+
+<%- @audit.changes.each do |k,v| -%>
+  <div class="change_block">
+    <h2 class="change_block_header"><%= k.titleize -%> Changes</h2>
+    <h3 class="change_block_header">Previous version:</h3>
+    <div class="change_block_contents"><%= v.first && v.first.to_s -%></div>
+    <h3 class="change_block_header">This version:</h3>
+    <div class="change_block_contents"><%= v.last.to_s -%></div>
+  </div>
+<%- end -%>

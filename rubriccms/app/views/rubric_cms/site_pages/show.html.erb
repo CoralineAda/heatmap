@@ -1,0 +1,11 @@
+<%= @site_page.content -%>
+
+<%- if admin? -%>
+  <br /><br />
+  <%- if params[:preview] -%>
+    <a href="#" onclick="window.close();" class="button">Back to Edit</a>
+  <%- else -%>
+    <%= link_to 'Edit', edit_site_section_site_page_path(@site_section, @site_page), :id => 'site_page_edit_link', :class => :button -%>
+  <%- end -%>
+<%- end -%>
+

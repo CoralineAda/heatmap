@@ -1,0 +1,10 @@
+<%- title_content "Site Map for #{ request.url.gsub(URI.parse(request.url).path,'/')}" -%>
+
+<%- @site_sections.each do |ss| -%>
+  <h2><%= ss.name -%></h2>
+  <ul>
+    <%- ss.site_pages.published.each do |sp| -%>
+      <li><%= link_to sp.page_title, sp.url -%></li>
+    <%- end -%>
+  </ul>
+<%- end -%>

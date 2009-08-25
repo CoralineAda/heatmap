@@ -1,0 +1,42 @@
+<%- title_content 'RubricCMS - Administration' -%>
+<%- meta_tag_content(:description, 'This is a test') -%>
+
+<h2>Configuration</h2>
+<ul class="admin_menu_items">
+  <li>
+    <%= link_to 'General Site Configuration', site_configurations_path -%>
+    <p class="flush_top">Manage general configuration options for RubricCMS.</p>
+    </li>
+</ul>
+
+<h2>Managed Content</h2>
+<ul class="admin_menu_items">
+  <li>
+    <%= link_to 'Sections & Pages', site_sections_path -%>
+    <p class="flush_top">Manage main site sections (e.g. 'About Us') and the pages that appear within them.</p>
+    </li>
+</ul>
+
+<h2>Navigation</h2>
+<ul class="admin_menu_items">
+  <li>
+    <%= link_to 'Main Navigation Items', navbar_items_path -%>
+    <p class="flush_top">Manage links that may be used in your primary navigation.</p>
+  </li>
+  <li>
+    <%= link_to 'Footer Links', footer_items_path -%>
+    <p class="flush_top">Manage links that you may want to appear in the footer of your pages.</p>
+  </li>
+</ul>
+
+
+<h2>Media</h2>
+<ul class="admin_menu_items">
+  <li>
+    <%= link_to 'Media Assets', media_assets_path -%>
+    <p class="flush_top">Manage media assets, including Flash files, images, PDFs, and Quicktime movies, that can be included in your web pages.</p>
+    </li>
+</ul>
+  
+
+<br style="clear: both;" />

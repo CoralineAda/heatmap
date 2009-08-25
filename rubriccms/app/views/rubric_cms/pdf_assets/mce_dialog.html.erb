@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{#pdf_dlg.title}</title>
+  <script src="/javascripts/prototype.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/javascripts/tiny_mce/tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="/javascripts/tiny_mce/utils/mctabs.js"></script>
+	<script type="text/javascript" src="/javascripts/tiny_mce/utils/form_utils.js"></script>
+	<script type="text/javascript" src="/javascripts/tiny_mce/utils/validate.js"></script>
+	<script type="text/javascript" src="/javascripts/tiny_mce/plugins/pdf/js/pdf.js"></script>
+
+	<link href="/javascripts/tiny_mce/plugins/pdf/css/pdf.css" rel="stylesheet" type="text/css" />
+	<link href="/javascripts/tiny_mce/plugins/pdf/css/content.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body id="pdf" style="display: none">
+    <form onsubmit="insertAction();return false;" action="#">
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#pdf_dlg.general_tab}</a></span></li>
+				<li id="popup_tab"><span><a href="javascript:mcTabs.displayTab('popup_tab','popup_panel');" onmousedown="return false;">{#pdf_dlg.popup_tab}</a></span></li>
+				<li id="events_tab"><span><a href="javascript:mcTabs.displayTab('events_tab','events_panel');" onmousedown="return false;">{#pdf_dlg.events_tab}</a></span></li>
+				<li id="advanced_tab"><span><a href="javascript:mcTabs.displayTab('advanced_tab','advanced_panel');" onmousedown="return false;">{#pdf_dlg.advanced_tab}</a></span></li>
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+					<%= legend_tag "{#pdf_dlg.general_props}" -%>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+						  <td class="nowrap"><label id="hreflabel" for="href">{#pdf_dlg.url}</label></td>
+						  <td><table border="0" cellspacing="0" cellpadding="0">
+								<tr>
+								  <td>
+								    <select id="href" name="href" class="mceFocus" onchange="selectByValue(this.form,'linklisthref',this.value);" />
+								      <%= options_for_media_assets(:pdf) -%>
+								    </select>
+								  </td>
+								  <td id="hrefbrowsercontainer">&nbsp;</td>
+								</tr>
+							  </table></td>
+						</tr>
+						<tr id="linklisthrefrow">
+							<td class="column1"><label for="linklisthref">{#pdf_dlg.list}</label></td>
+							<td colspan="2" id="linklisthrefcontainer"><select id="linklisthref"><option value=""></option></select></td>
+						</tr>
+						<tr>
+							<td class="column1"><label for="anchorlist">{#pdf_dlg.anchor_names}</label></td>
+							<td colspan="2" id="anchorlistcontainer"><select id="anchorlist"><option value=""></option></select></td>
+						</tr>
+						<tr>
+							<td><label id="targetlistlabel" for="targetlist">{#pdf_dlg.target}</label></td>
+							<td id="targetlistcontainer"><select id="targetlist"><option value=""></option></select></td>
+						</tr>
+						<tr>
+							<td class="nowrap"><label id="titlelabel" for="title">{#pdf_dlg.titlefield}</label></td>
+							<td><input id="title" name="title" type="text" value="" /></td>
+						</tr>
+						<tr>
+							<td><label id="classlabel" for="classlist">{#class_name}</label></td>
+							<td>
+								 <select id="classlist" name="classlist" onchange="changeClass();">
+									<option value="" selected="selected">{#not_set}</option>
+								 </select>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+
+			<div id="popup_panel" class="panel">
+				<fieldset>
+					<%= legend_tag "{#pdf_dlg.popup_props}" -%>
+
+					<input type="checkbox" id="ispopup" name="ispopup" class="radio" onclick="setPopupControlsDisabled(!this.checked);buildOnClick();" />
+					<label id="ispopuplabel" for="ispopup">{#pdf_dlg.popup}</label>
+
+					<table border="0" cellpadding="0" cellspacing="4">
+						<tr>
+							<td class="nowrap"><label for="popupurl">{#pdf_dlg.popup_url}</label>&nbsp;</td>
+							<td>
+								<table border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td><input type="text" name="popupurl" id="popupurl" value="" onchange="buildOnClick();" /></td>
+										<td id="popupurlbrowsercontainer">&nbsp;</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="nowrap"><label for="popupname">{#pdf_dlg.popup_name}</label>&nbsp;</td>
+							<td><input type="text" name="popupname" id="popupname" value="" onchange="buildOnClick();" /></td>
+						</tr>
+						<tr>
+							<td class="nowrap"><label>{#pdf_dlg.popup_size}</label>&nbsp;</td>
+							<td class="nowrap">
+								<input type="text" id="popupwidth" name="popupwidth" value="" onchange="buildOnClick();" /> x
+								<input type="text" id="popupheight" name="popupheight" value="" onchange="buildOnClick();" /> px
+							</td>
+						</tr>
+						<tr>
+							<td class="nowrap" id="labelleft"><label>{#pdf_dlg.popup_position}</label>&nbsp;</td>
+							<td class="nowrap">
+								<input type="text" id="popupleft" name="popupleft" value="" onchange="buildOnClick();" /> /                                
+								<input type="text" id="popuptop" name="popuptop" value="" onchange="buildOnClick();" /> (c /c = center)
+							</td>
+						</tr>
+					</table>
+
+					<fieldset>
+						<%= legend_tag "{#pdf_dlg.popup_opts}" -%>
+
+						<table border="0" cellpadding="0" cellspacing="4">
+							<tr>
+								<td><input type="checkbox" id="popuplocation" name="popuplocation" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popuplocationlabel" for="popuplocation">{#pdf_dlg.popup_location}</label></td>
+								<td><input type="checkbox" id="popupscrollbars" name="popupscrollbars" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popupscrollbarslabel" for="popupscrollbars">{#pdf_dlg.popup_scrollbars}</label></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="popupmenubar" name="popupmenubar" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popupmenubarlabel" for="popupmenubar">{#pdf_dlg.popup_menubar}</label></td>
+								<td><input type="checkbox" id="popupresizable" name="popupresizable" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popupresizablelabel" for="popupresizable">{#pdf_dlg.popup_resizable}</label></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="popuptoolbar" name="popuptoolbar" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popuptoolbarlabel" for="popuptoolbar">{#pdf_dlg.popup_toolbar}</label></td>
+								<td><input type="checkbox" id="popupdependent" name="popupdependent" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popupdependentlabel" for="popupdependent">{#pdf_dlg.popup_dependent}</label></td>
+							</tr>
+							<tr>
+								<td><input type="checkbox" id="popupstatus" name="popupstatus" class="checkbox" onchange="buildOnClick();" /></td>
+								<td class="nowrap"><label id="popupstatuslabel" for="popupstatus">{#pdf_dlg.popup_statusbar}</label></td>
+								<td><input type="checkbox" id="popupreturn" name="popupreturn" class="checkbox" onchange="buildOnClick();" checked="checked" /></td>
+								<td class="nowrap"><label id="popupreturnlabel" for="popupreturn">{#pdf_dlg.popup_return}</label></td>
+							</tr>
+						</table>
+					</fieldset>
+				</fieldset>
+			</div>
+
+			<div id="advanced_panel" class="panel">
+			<fieldset>
+					<%= legend_tag "{#pdf_dlg.advanced_props}" -%>
+
+					<table border="0" cellpadding="0" cellspacing="4">
+						<tr>
+							<td class="column1"><label id="idlabel" for="id">{#pdf_dlg.id}</label></td> 
+							<td><input id="id" name="id" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td><label id="stylelabel" for="style">{#pdf_dlg.style}</label></td>
+							<td><input type="text" id="style" name="style" value="" /></td>
+						</tr>
+
+						<tr>
+							<td><label id="classeslabel" for="classes">{#pdf_dlg.classes}</label></td>
+							<td><input type="text" id="classes" name="classes" value="" onchange="selectByValue(this.form,'classlist',this.value,true);" /></td>
+						</tr>
+
+						<tr>
+							<td><label id="targetlabel" for="target">{#pdf_dlg.target_name}</label></td>
+							<td><input type="text" id="target" name="target" value="" onchange="selectByValue(this.form,'targetlist',this.value,true);" /></td>
+						</tr>
+
+						<tr>
+							<td class="column1"><label id="dirlabel" for="dir">{#pdf_dlg.langdir}</label></td> 
+							<td>
+								<select id="dir" name="dir"> 
+										<option value="">{#not_set}</option> 
+										<option value="ltr">{#pdf_dlg.ltr}</option> 
+										<option value="rtl">{#pdf_dlg.rtl}</option> 
+								</select>
+							</td> 
+						</tr>
+
+						<tr>
+							<td><label id="hreflanglabel" for="hreflang">{#pdf_dlg.target_langcode}</label></td>
+							<td><input type="text" id="hreflang" name="hreflang" value="" /></td>
+						</tr>
+
+						<tr>
+							<td class="column1"><label id="langlabel" for="lang">{#pdf_dlg.langcode}</label></td> 
+							<td>
+								<input id="lang" name="lang" type="text" value="" />
+							</td> 
+						</tr>
+
+						<tr>
+							<td><label id="charsetlabel" for="charset">{#pdf_dlg.encoding}</label></td>
+							<td><input type="text" id="charset" name="charset" value="" /></td>
+						</tr>
+
+						<tr>
+							<td><label id="typelabel" for="type">{#pdf_dlg.mime}</label></td>
+							<td><input type="text" id="type" name="type" value="" /></td>
+						</tr>
+
+						<tr>
+							<td><label id="rellabel" for="rel">{#pdf_dlg.rel}</label></td>
+							<td><select id="rel" name="rel"> 
+									<option value="">{#not_set}</option> 
+									<option value="lightbox">Lightbox</option> 
+									<option value="alternate">Alternate</option> 
+									<option value="designates">Designates</option> 
+									<option value="stylesheet">Stylesheet</option> 
+									<option value="start">Start</option> 
+									<option value="next">Next</option> 
+									<option value="prev">Prev</option> 
+									<option value="contents">Contents</option> 
+									<option value="index">Index</option> 
+									<option value="glossary">Glossary</option> 
+									<option value="copyright">Copyright</option> 
+									<option value="chapter">Chapter</option> 
+									<option value="subsection">Subsection</option> 
+									<option value="appendix">Appendix</option> 
+									<option value="help">Help</option> 
+									<option value="bookmark">Bookmark</option>
+									<option value="nofollow">No Follow</option>
+									<option value="tag">Tag</option>
+								</select> 
+							</td>
+						</tr>
+
+						<tr>
+							<td><label id="revlabel" for="rev">{#pdf_dlg.rev}</label></td>
+							<td><select id="rev" name="rev"> 
+									<option value="">{#not_set}</option> 
+									<option value="alternate">Alternate</option> 
+									<option value="designates">Designates</option> 
+									<option value="stylesheet">Stylesheet</option> 
+									<option value="start">Start</option> 
+									<option value="next">Next</option> 
+									<option value="prev">Prev</option> 
+									<option value="contents">Contents</option> 
+									<option value="index">Index</option> 
+									<option value="glossary">Glossary</option> 
+									<option value="copyright">Copyright</option> 
+									<option value="chapter">Chapter</option> 
+									<option value="subsection">Subsection</option> 
+									<option value="appendix">Appendix</option> 
+									<option value="help">Help</option> 
+									<option value="bookmark">Bookmark</option> 
+								</select> 
+							</td>
+						</tr>
+
+						<tr>
+							<td><label id="tabindexlabel" for="tabindex">{#pdf_dlg.tabindex}</label></td>
+							<td><input type="text" id="tabindex" name="tabindex" value="" /></td>
+						</tr>
+
+						<tr>
+							<td><label id="accesskeylabel" for="accesskey">{#pdf_dlg.accesskey}</label></td>
+							<td><input type="text" id="accesskey" name="accesskey" value="" /></td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+
+			<div id="events_panel" class="panel">
+			<fieldset>
+					<%= legend_tag "{#pdf_dlg.event_props}" -%>
+
+					<table border="0" cellpadding="0" cellspacing="4">
+						<tr>
+							<td class="column1"><label for="onfocus">onfocus</label></td> 
+							<td><input id="onfocus" name="onfocus" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onblur">onblur</label></td> 
+							<td><input id="onblur" name="onblur" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onclick">onclick</label></td> 
+							<td><input id="onclick" name="onclick" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="ondblclick">ondblclick</label></td> 
+							<td><input id="ondblclick" name="ondblclick" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onmousedown">onmousedown</label></td> 
+							<td><input id="onmousedown" name="onmousedown" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onmouseup">onmouseup</label></td> 
+							<td><input id="onmouseup" name="onmouseup" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onmouseover">onmouseover</label></td> 
+							<td><input id="onmouseover" name="onmouseover" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onmousemove">onmousemove</label></td> 
+							<td><input id="onmousemove" name="onmousemove" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onmouseout">onmouseout</label></td> 
+							<td><input id="onmouseout" name="onmouseout" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onkeypress">onkeypress</label></td> 
+							<td><input id="onkeypress" name="onkeypress" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onkeydown">onkeydown</label></td> 
+							<td><input id="onkeydown" name="onkeydown" type="text" value="" /></td> 
+						</tr>
+
+						<tr>
+							<td class="column1"><label for="onkeyup">onkeyup</label></td> 
+							<td><input id="onkeyup" name="onkeyup" type="text" value="" /></td> 
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="submit" id="insert" name="insert" value="{#insert}" />
+			</div>
+
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'spec/rake/spectask'
+
+#Rake.application.instance_variable_get('@tasks').delete('default')
+
+spec_prereq = File.exist?(File.join("../../../", 'config', 'database.yml')) ? "db:test:prepare" : :noop
+task :noop do
+end
+
+desc 'Generate documentation for the rubric_cms plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'RubricCms'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('app/models/*.rb')
+end
+
+desc "Run all specs in plugin spec directory with RCov"
+Spec::Rake::SpecTask.new(:rcov) do |t|
+  t.spec_opts = ['--options', "\"spec/spec.opts\""]
+  t.spec_files = FileList['../../../vendor/plugins/rubric_cms/spec/**/*/*_spec.rb'].exclude('../../../spec/**')
+  t.rcov = true
+  t.rcov_opts = lambda do
+    IO.readlines("spec/rcov.opts").map {|l| l.chomp.split " "}.flatten
+  end
+end

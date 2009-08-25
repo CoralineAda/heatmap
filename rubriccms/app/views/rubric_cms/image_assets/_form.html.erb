@@ -1,0 +1,34 @@
+<% form_for @image_asset, :html => { :multipart => true } do |f| %>
+
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Image" -%>
+
+    <div class="form_column">
+
+      <fieldset>
+        <%= tag_for_label_with_instructions('File', 'image_asset_media', "JPEG or PNG files only, maximum file size of #{ImageAsset::MAX_MB_FILE_SIZE} MB.") -%>
+        <%= f.file_field :media -%>
+      </fieldset>
+
+    </div>
+    
+    <div class="form_column">
+      <%- if @image_asset && @image_asset.media_file_name -%>
+        <div class="media_preview">
+          <%= image_tag @image_asset.media.url(:thumbnail), :style => 'border: 1px solid #333333;' -%>
+          <p class="media_caption"><%= @image_asset.media_file_name -%></p>
+        </div>
+      <%- end -%>
+    </div>
+
+  </fieldset>
+
+  <%- if @image_asset.new_record? -%>
+    <%= f.submit 'Upload', :class => 'button' -%>
+  <%- else -%>
+    <%= f.submit 'Save', :class => 'button' -%>
+  <%- end -%>
+  <%= link_to 'Cancel', media_assets_path, :class => 'button' -%>
+<%- end -%>

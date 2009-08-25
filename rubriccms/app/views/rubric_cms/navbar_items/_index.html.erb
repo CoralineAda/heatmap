@@ -1,0 +1,36 @@
+<p>To change the order in which these items appear, simply drag-and-drop the items below.</p>
+
+<table class="standard">
+  <thead>
+    <tr>
+      <th>Link Text</th>
+      <th>Mouseover Text</th>
+      <th>URL</th>
+      <th>Section</th>
+      <th># Sub Navigation Links</th>
+      <th></th>
+    </tr>
+  </thead>  
+  <tbody id="navlist">
+    <%- @navbar_items.each do |navbar_item| -%>
+      <tr class="<%= cycle('odd', 'even') -%>" id="navbar_item_<%= navbar_item.id -%>" style="cursor: move;">
+        <td><%=h navbar_item.link_text -%></td>
+        <td><%=h navbar_item.link_title -%></td>
+        <td>
+          <%- if navbar_item.url -%>
+            <%=h navbar_item.url -%>
+          <%- elsif navbar_item.page -%>
+            <%=h navbar_item.page.url -%>
+          <%- else -%>
+            -
+          <%- end -%>
+        </td>
+        <td><%=h navbar_item.site_section ? navbar_item.site_section.name : '-' -%></td>
+        <td><%= navbar_item.children.count -%></td>
+        <td class="crud_links"><%= crud_links(navbar_item, 'navbar_item', [:edit, :delete]) -%></td>
+      </tr>
+    <%- end -%>
+  </tbody>
+</table>
+
+<%= sortable_element "navlist", :update => nil, :url => { :action => "reorder"}, :tag => 'tr' -%>

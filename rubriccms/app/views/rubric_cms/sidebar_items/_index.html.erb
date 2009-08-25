@@ -1,0 +1,47 @@
+<h2>Sidebar Navigation Items</h2>
+
+<%- if ! @site_section.sidebar_enabled -%>
+  <p>The navigation sidebar is disabled for this section. You can also manually add or edit sidebar navigation items, but they will not be displayed. To enable the navigation sidebar, click the "Edit Details" button above.</p>
+<%- else -%>
+  <p>The navigation sidebar is enabled for this section, so all newly created pages will automatically be added to the sidebar. You can also manually add or edit the sidebar navigation items. To disable the navigation sidebar, click the "Edit Details" button above.</p>
+
+  <%- if @sidebar_items.empty? -%>
+    <p><em>No sidebar navigation items have been created for this site section yet.</em></p>
+  <%- else -%>
+  
+    <p>To change the order in which the sidebar links appear, simply drag-and-drop the items below.</p>
+  
+    <table class="standard">
+      <thead>
+        <tr>
+          <th><%= sort_link(:sidebar_items, 'link_text', params) -%></th>
+          <th><%= sort_link(:sidebar_items, 'link_title', params) -%></th>
+          <th><%= sort_link(:sidebar_items, 'url', params) -%></th>
+          <th><%= sort_link(:sidebar_items, 'site_page_id', params) -%></th>
+          <th><%= sort_link(:sidebar_items, 'nofollow', params) -%></th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody id="itemlist">
+        <%- for sidebar_item in @sidebar_items -%>
+          <tr class="<%= cycle('odd', 'even') -%>" id="sidebar_item_<%= sidebar_item.id -%>" style="cursor: move;">
+            <td><%=h sidebar_item.link_text -%></td>
+            <td><%=h truncate(sidebar_item.link_title, 40) -%></td>
+            <td><%=h sidebar_item.site_page ? sidebar_item.site_page.url : sidebar_item.url -%></td>
+            <td><%=h sidebar_item.site_page ? sidebar_item.site_page.page_title : '-' -%></td>
+            <td><%=h sidebar_item.nofollow -%></td>
+            <td class="crud_links"><%= crud_links_for_nested_resource(@site_section, sidebar_item, 'site_section', 'sidebar_item', [:edit, :delete]) -%></td>
+          </tr>
+        <%- end -%>
+      </tbody>
+    </table>
+  <%- end -%>
+  
+  <%= sortable_element "itemlist", :update => nil, :url => { :action => "reorder", :controller => 'sidebar_items'}, :tag => 'tr' -%>
+  
+<%- end -%>
+
+<%= link_to 'New Sidebar Item', new_site_section_sidebar_item_path(@site_section), :class => 'button' -%>
+
+<br style="clear: both;" />
+

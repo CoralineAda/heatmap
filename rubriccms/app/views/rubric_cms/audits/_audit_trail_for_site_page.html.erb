@@ -1,0 +1,33 @@
+<%- unless @audit_trail.nil? || @audit_trail.empty? -%>
+  <fieldset class="form_container">
+    <%= legend_tag "Change History" -%>
+    <table class="results">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Date</th>
+          <th>Author</th>
+          <th>Fields Changed</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      <%- @audit_trail.each_with_index do |v,i| -%>
+        <tr class="<%= cycle('odd', 'even') -%>">
+          <td><%= v.version -%></td>
+          <td><%= v.created_at.to_s(:concise) -%></td>
+          <td><%= v.user.nil? ? '-' : v.user.name -%></td>
+          <%- if i == 0 -%>
+            <td></td>
+            <td></td>
+          <%- else -%>
+            <td><%= v['changes'].keys.map{|k| k.titleize if SitePage::FIELDS_TO_AUDIT.include?(k) } * ', ' -%></td>
+            <td class="crud_links"><%= crud_links(v, 'audit', [:show], :popup => true) -%></td>
+          <%- end -%>
+        </tr>
+      <%- end -%>
+      </tbody>
+    </table>    
+  </fieldset>
+<%- end -%>
+

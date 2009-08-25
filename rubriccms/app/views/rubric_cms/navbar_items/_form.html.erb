@@ -1,0 +1,63 @@
+<%- form_for(@navbar_item) do |f| -%>
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Navigation Item" -%>
+
+    <%= hidden_field_tag :parent_id, @navbar_item.parent_id -%>
+
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Link Text', 'link_text', 'The text that will show as a link.' %>
+      <%= f.text_field :link_text -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Mouseover Text', 'link_title', 'The text that will display when the user mouses over the link. This should be more descriptive than the link text.' %>
+      <%= f.text_field :link_title -%>
+    </fieldset>
+    <fieldset>
+      <%= tag_for_label_with_inline_help 'Site Section', 'site_section_id', 'What area of the site does this navigation item correspond to?' %>
+      <%= f.select :site_section_id, SiteSection.all.map{|ss| [ss.name, ss.id]}, :include_blank => ApplicationHelper::SELECT_PROMPT -%>
+    </fieldset>
+    <fieldset>
+      <%= f.label :site_page_id, 'Page' -%><br />
+      <%= related_collection_select(:navbar_item, :site_page_id, [:navbar_item_site_section, :id], SitePage.published, :id, :name, :site_section_id, :include_blank => ApplicationHelper::SELECT_PROMPT) %>
+    </fieldset>
+    <fieldset id="url_field_container" style="display: <%= @navbar_item.site_page_id.nil? ? 'block' : 'none' -%>">
+      <%= f.label :url, 'URL' -%><br />
+      <%= f.text_field :url -%>
+    </fieldset>
+    <fieldset class="inline_label">
+      <%= tag_for_label_with_inline_help 'No Follow?', 'foo', 'Enable nofollow if you do not want search engine spiders to follow this link.' %>
+      <%= f.check_box :nofollow -%><%= f.label :nofollow, "Set nofollow", :class => "inline" -%><br /><br />
+    </fieldset>
+  </fieldset>
+
+  <%= f.submit 'Save', :class => 'button' -%>
+  <%= link_to 'Cancel', navbar_items_path, :class => 'button' -%>
+<%- end -%>
+
+<script type="text/javascript">
+  Event.observe($('navbar_item_site_page_id'), 'change', function (){ hideOrShowURLField(); });
+  Event.observe($('navbar_item_site_section_id'), 'change', function (){ hideOrShowURLField(); });
+  function hideOrShowURLField() {
+    if (($('navbar_item_site_page_id').value == "<%= ApplicationHelper::SELECT_PROMPT -%>") || ($('navbar_item_site_section_id').value == "")) {
+      $('url_field_container').style.display = "block";
+    } else {
+      $('url_field_container').style.display = "none";
+      $('navbar_item_url').value = "";
+    }
+  }
+</script>
+
+<br style="clear: both;" />
+
+<%- if @navbar_item.parent_id == nil -%>
+  <h2>Sub-Navigation Items</h2>
+  <%- if @navbar_item.sub_nav_items.empty? %>
+    <p>This navigation item does not have any sub-navigation items yet.</p>
+  <%- else -%>
+    <%= render 'index', :locals => {:navbar_items => @navbar_item.sub_nav_items } -%>
+  <%- end -%>
+  
+  <%= link_to 'New Sub-Navigation Item', new_navbar_item_path(:parent_id => @navbar_item.id), :class => 'button' -%>
+<%- end -%>

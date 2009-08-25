@@ -1,0 +1,52 @@
+<%- form_for(@site_section) do |f| -%>
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Site Section" -%>
+
+    <div class="form_column">
+      <fieldset>
+        <%= f.label :name -%><br />
+        <%= f.text_field :name -%>
+      </fieldset>
+      <fieldset>
+        <%= f.label :root_url, 'Root URL' -%><br />
+        <%= f.text_field :root_url -%>
+      </fieldset>
+      <fieldset class="inline_label">
+        <label>Navigation Bar Menu</label><br />
+        <%= f.check_box :navbar_enabled -%>
+        <%= f.label :navbar_enabled, "Enabled", :class => "inline" -%>
+      </fieldset>
+      <fieldset class="inline_label">
+        <label>Navigation Sidebar</label><br />
+        <%= f.check_box :sidebar_enabled -%>
+        <%= f.label :sidebar_enabled, "Enabled", :class => "inline" -%>
+      </fieldset>
+      <fieldset class="inline_label">
+        <label>Status</label><br />
+        <%= f.check_box :active -%>
+        <%= f.label :active, "Active", :class => "inline" -%>
+      </fieldset>
+    </div>
+  
+    <div class="form_column">
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Default Meta Description', 'default_meta_description', 'A short description of the pages in this section. If you do not set the meta description for a particular page in this section, this default will be used instead.' %>
+        <%= f.text_area :default_meta_description, :style => 'height: 50px;' -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Default Meta Keywords', 'default_meta_keywords', 'A comma-separated list of keywords associated with pages in this section. If you do not set the meta keywords for a particular page in this section, this default will be used instead.' %>
+        <%= f.text_area :default_meta_keywords, :style => 'height: 50px;' -%>
+      </fieldset>
+    </div>
+
+  </fieldset>
+  
+  <%= f.submit 'Save', :class => 'button' -%>
+  <%- unless @site_section.new_record? -%>
+    <%= link_to 'Delete', site_section_path(@site_section), :confirm => 'Are you sure? You are about to delete this site section and all associated pages, and this action cannot be undone.', :method => :delete, :class => 'button' -%>
+  <%- end -%>
+  <%= link_to 'Cancel', site_sections_path, :class => 'button' -%>
+  
+<%- end -%>

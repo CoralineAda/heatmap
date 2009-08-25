@@ -1,0 +1,60 @@
+<%- form_for(@sidebar_item) do |f| -%>
+  <%= f.error_messages -%>
+  <%= hidden_field_tag :site_section_id, params[:site_section_id] -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Sidebar Item" -%>
+    
+    <div class="form_column">
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Link Text', 'link_text', 'The text that will show as a link.' %>
+        <%= f.text_field :link_text -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Mouseover Text', 'link_title', 'The text that will display when the user mouses over the link. This should be more descriptive than the link text.' %>
+        <%= f.text_field :link_title -%>
+      </fieldset>
+      <fieldset class="inline_label">
+        <label>Open link in new window?</label><br />
+        <%= f.check_box :popup -%><%= f.label :popup, "Enable Popup", :class => "inline" -%><br /><br />
+      </fieldset>
+      <fieldset class="inline_label">
+        <%= tag_for_label_with_inline_help 'No Follow?', 'foo', 'Enable nofollow if you do not want search engine spiders to follow this link.' %>
+        <%= f.check_box :nofollow -%><%= f.label :nofollow, "Set NoFollow Flag", :class => "inline" -%><br /><br />
+      </fieldset>
+    </div>
+
+    <div class="form_column">
+      <fieldset>
+        <label for="sidebar_item_site_section">Site Section</label><br />
+          <%= select_tag :site_section_id, SiteSection.active.map{|ss| "<option value='#{ss.id}'>#{ss.name}</option>"}.insert(0,"<option>#{ApplicationHelper::SELECT_PROMPT}</option>"), :id => 'si_site_section_id' %>
+      </fieldset>
+      <fieldset>
+        <%= f.label :site_page_id, 'Page' -%><br />
+        <%= related_collection_select(:sidebar_item, :site_page_id, [:si_site_section, :id], SitePage.published, :id, :name, :site_section_id, :include_blank => ApplicationHelper::SELECT_PROMPT) %>
+      </fieldset>
+      <fieldset id="url_field_container" style="display: <%= @sidebar_item.site_page_id.nil? ? 'block' : 'none' -%>">
+        <%= f.label :url, 'URL' -%><br />
+        <%= f.text_field :url -%>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <%= f.submit 'Save', :class => 'button' -%>
+  <%= link_to 'Cancel', site_section_path(@site_section), :class => 'button' -%>
+<%- end -%>
+
+<script type="text/javascript">
+
+  Event.observe($('sidebar_item_site_page_id'), 'change', function (){ hideOrShowURLField(); });
+  Event.observe($('si_site_section_id'), 'change', function (){ hideOrShowURLField(); });
+
+  function hideOrShowURLField() {
+    if (($('sidebar_item_site_page_id').value == "<%= ApplicationHelper::SELECT_PROMPT -%>") || ($('si_site_section_id').value == "<%= ApplicationHelper::SELECT_PROMPT -%>")) {
+      $('url_field_container').style.display = "block";
+    } else {
+      $('url_field_container').style.display = "none";
+      $('sidebar_item_url').value = "";
+    }
+  }
+</script>

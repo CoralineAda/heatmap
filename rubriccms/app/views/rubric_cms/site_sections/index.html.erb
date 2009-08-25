@@ -1,0 +1,37 @@
+<%- title_content 'Site Sections' -%>
+
+<%- if @site_sections.empty? -%>
+  <p><em>No site sections have been created yet.</em></p>
+<%- else -%>
+  <table class="standard">
+    <tr>
+      <th><%= sort_link(:site_sections, 'name', params) -%></th>
+      <th><%= sort_link(:site_sections, 'root_url', params) -%></th>
+      <th><%= sort_link(:site_sections, 'active', params) -%></th>
+      <th># Pages</th>
+      <th></th>
+    </tr>
+  
+  <%- for site_section in @site_sections -%>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <td><%=h site_section.name -%></td>
+      <td><%=h site_section.root_url -%></td>
+      <td><%=h site_section.active ? "Active" : "Inactive" -%></td>
+      <td><%=h site_section.site_pages.size -%></td>
+      <td class="crud_links">
+        <%- if use_crud_icons -%>
+          <%= link_to image_tag('/images/icons/edit.png', :class => 'crud_icon'), site_section_path(site_section.id), :title => 'Edit' -%>
+        <%- else -%>
+          <%= link_to 'Edit', site_section_path(site_section.id) -%>
+        <%- end -%>      
+        <%= crud_links(site_section, 'site_section', [:delete]) -%>
+      </td>
+    </tr>
+  <%- end -%>
+  </table>
+<%- end -%>
+
+<br />
+
+<%= link_to 'New Site Section', new_site_section_path, :class => 'button' -%>
+<%= link_to 'New Site Page', new_site_page_path, :class => 'button' -%>

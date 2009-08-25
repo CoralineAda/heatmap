@@ -1,0 +1,45 @@
+<% form_for @pdf_asset, :html => { :multipart => true } do |f| %>
+
+  <%= f.error_messages -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This PDF Document" -%>
+
+    <div class="form_column">
+
+      <fieldset>
+        <label for="pdf_asset_name">
+          Name<br />
+          <span class="instruction">Note that this name <em>will</em> be used to identify the file for downloading and therefore will be displayed to the public.</span>
+        </label><br />
+        <%= f.text_field :name -%>
+      </fieldset>
+      <fieldset>
+        <%= f.label :description -%><br />
+        <%= f.text_field :description -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_instructions('File', 'pdf_asset_media', ".pdf only, maximum file size of #{PdfAsset::MAX_MB_FILE_SIZE} MB.") -%>
+        <%= f.file_field :media -%>
+      </fieldset>
+
+    </div>
+    
+    <div class="form_column">
+      <%- if @pdf_asset && @pdf_asset.media_file_name -%>
+        <div class="media_preview">
+          <%= image_tag @pdf_asset.media.url(:thumbnail), :class => :media_thumbnail -%><br />
+          <p class="media_caption"><%= link_to "Download #{@pdf_asset.media_file_name}", @pdf_asset.media.url -%></p>
+        </div>
+      <%- end -%>
+    </div>
+
+  </fieldset>
+
+  <%- if @pdf_asset.new_record? -%>
+    <%= f.submit 'Upload', :class => 'button' -%>
+  <%- else -%>
+    <%= f.submit 'Save', :class => 'button' -%>
+  <%- end -%>
+  <%= link_to 'Cancel', media_assets_path, :class => 'button' -%>
+<%- end -%>

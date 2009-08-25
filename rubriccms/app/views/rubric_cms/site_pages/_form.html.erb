@@ -1,0 +1,78 @@
+<%- form_for(@site_page, :html => {:id => 'site_page_form'}) do |f| -%>
+  <%= f.error_messages -%>
+
+  <%= hidden_field_tag :updated_by, current_user.id -%>
+
+  <fieldset class="form_container">
+    <%= legend_tag "About This Page" -%>
+
+    <div class="form_column">
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Page Title', 'page_title', 'The title of the page that will be displayed to visitors.' %>
+        <%= f.text_field :page_title -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'URL Slug', 'slug', 'The portion of the URL that refers to this page specifically. If this page is in the \'services\' section and you enter \'additional_services\' as the slug, the full URL will be \'/services/additional_services/\'.' %>
+        <%= f.text_field :slug -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Site Section', 'site_section_id', 'What area of the site does this page belong to?' %>
+        <%= f.select :site_section_id, SiteSection.all.sort{|a,b| a.name <=> b.name}.map{|ss| [ss.name, ss.id]}, {}, :include_blank => ApplicationHelper::SELECT_PROMPT -%>
+      </fieldset>
+      <%- if @site_page.new_record? -%>
+        <fieldset class="inline_label">
+          <%= tag_for_label_with_inline_help 'Main Navigation Link', 'navbar_item_enabled', 'Creates a link in the main navigation menu for this page, if the navigation menu is enabled for this site section.' -%>
+          <%= check_box_tag "site_page[navbar_item_enabled]", 1, @site_section.navbar_enabled -%>
+          <%= f.label :navbar_item_enabled, "Create Main Navigation Link", :class => "inline" -%>
+        </fieldset>
+        <fieldset class="inline_label">
+          <%= tag_for_label_with_inline_help 'Sidebar Navigation Link', 'sidebar_item_enabled', 'Creates a link in the sidebar navigation menu for this page, if the sidebar navigation menu is enabled for this site section.' -%>
+          <%= check_box_tag "site_page[sidebar_item_enabled]", 1, @site_section.sidebar_enabled -%>
+          <%= f.label :sidebar_item_enabled, "Create Sidebar Navigation Link", :class => "inline" -%>
+        </fieldset>
+      <%- end -%>
+    </div>
+    
+    <div class="form_column">
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Description', 'meta_description', 'A short description of the page. This description will help search engines understand what the page is about.' %>
+        <%= f.text_area :meta_description, :style => 'height: 50px;' -%>
+      </fieldset>
+      <fieldset>
+        <%= tag_for_label_with_inline_help 'Keywords', 'keywords', 'A comma-separated list of keywords associated with this page. These keywords will help search engines understand what the page is about.' %>
+        <%= f.text_area :meta_keywords, :style => 'height: 50px;' -%>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <fieldset class="form_container">
+    <%= legend_tag "Page Content" -%>
+    <fieldset id="page_content_fields">
+      <%= f.text_area :content, :style => 'width: 99%; height: 400px;', :class => "mceCustom" -%>
+    </fieldset>
+  </fieldset>
+  
+  <%= render '/rubric_cms/audits/audit_trail_for_site_page' -%>
+  
+  <%= f.submit 'Preview', :id => 'preview', :class => 'button', :target => '_blank' -%>
+  <%- if @site_page.draft? -%>
+    <%= f.submit 'Save as Draft', :id => 'save_as_draft', :class => 'button' -%>
+    <%= f.submit 'Publish', :id => 'publish', :class => 'button' -%>
+  <%- else -%>
+    <%= f.submit 'Save', :id => 'save', :class => 'button' -%>
+  <%- end -%>
+  <%= link_to 'Cancel', @site_section, :class => 'button' -%>
+
+<%- end -%>
+
+<script type="text/javascript">
+
+  Event.observe($('preview'), 'mousedown', function (){ $('site_page_form').target = '_blank'; });
+  <%- if @site_page.draft? -%>
+    Event.observe($('save_as_draft'), 'mousedown', function (){ $('site_page_form').target = '_self'; });
+    Event.observe($('publish'), 'mousedown', function (){ $('site_page_form').target = '_self'; });
+  <%- else -%>
+    Event.observe($('save'), 'mousedown', function (){ $('site_page_form').target = '_self'; });
+  <%- end -%>
+
+</script>
