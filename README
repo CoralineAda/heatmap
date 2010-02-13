@@ -8,7 +8,7 @@ Installation
 
 Install the plugin as usual:
 
-  script/plugin install bantik-heatmap
+  script/plugin install git@github.com:Bantik/heatmap.git
   
 Then add this line to your application controller:
 
