@@ -30,7 +30,7 @@ module Heatmap
   end
   
   def element_heat(histogram, _size)
-    sprintf("%02x" % (255 - (_size * 25)))
+    sprintf("%02x" % (255 - (_size * 10)))
   end
 
 end
