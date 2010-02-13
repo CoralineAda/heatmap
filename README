@@ -41,4 +41,23 @@ In your view:
 
   <%= heatmap(@histogram) -%>
 
+You'll probably want to style the heatmap. There are two classes that you need to set styles for: heatmap, which is the enclosing div, and heatmap_element, which is applied to each key in the heatmap.
+
+Sample CSS to get you started:
+
+    .heatmap {
+      border-top: 1px solid #aaaaaa;
+      border-bottom: 1px solid #aaaaaa;
+      width: 300px;
+      padding: 1em;
+    }
+
+    .heatmap_element {
+      display: block;
+      text-align: center;
+      margin: .25em;
+      padding-top: 0em;
+      float: left;
+    }
+
 Copyright (c) 2010 Corey Ehmke, released under the MIT license
