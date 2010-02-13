@@ -24,7 +24,7 @@ To generate a heatmap, simply call the method from the view, passing in a prepre
 In the controller:
 
   def index
-    @histogram ||= {
+    @histogram = {
       'Foo' => 13,
       'Bar' => 15,
       'Trouble' => 5,
