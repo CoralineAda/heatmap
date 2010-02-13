@@ -1,0 +1,44 @@
+Heatmap
+=======
+
+Heatmap provides a simple, single helper method that generates a cloud-style heatmap based on a provided histogram.
+
+Installation
+============
+
+Install the plugin as usual:
+
+  script/plugin install bantik-heatmap
+  
+Then add this line to your application controller:
+
+  helper_method :heatmap
+
+That's it!
+
+Example
+=======
+
+To generate a heatmap, simply call the method from the view, passing in a preprepared histogram. The size and color of each key is calculated based on the associated value from the histogram.
+
+In the controller:
+
+  def index
+    @histogram ||= {
+      'Foo' => 13,
+      'Bar' => 15,
+      'Trouble' => 5,
+      'Braids' => 1,
+      'Something' => 9,
+      'Else' => 13,
+      'Many' => 20,
+      'Zombies' => 7,
+      'nothing' => 0
+    }
+  end
+
+In your view:
+
+  <%= heatmap(@histogram) -%>
+
+Copyright (c) 2010 Corey Ehmke, released under the MIT license
