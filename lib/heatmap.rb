@@ -11,11 +11,11 @@ module Heatmap
     html = %{<div class="heatmap">}
     histogram.keys.sort{|a,b| histogram[a] <=> histogram[b]}.reverse.each do |k|
       next if histogram[k] < 1
-      _heat = element_heat(histogram, histogram[k])
-      _size = element_size(histogram, k)
       _max = histogram_max(histogram)
+      _size = element_size(histogram[k], _max)
+      _heat = element_heat(histogram[k], _max)
       html << %{
-        <div class="heatmap_element" style="color: ##{_heat}#{_heat}#{_heat}; font-size: #{_size}px; height: #{_max}px;">#{k}</div>
+        <span class="heatmap_element" style="color: ##{_heat}#{_heat}#{_heat}; font-size: #{_size}px;">#{k}</span>
       }
     end
     html << %{<br style="clear: both;" /></div>}
@@ -25,12 +25,12 @@ module Heatmap
     histogram.map{|k,v| histogram[k]}.max * 2
   end
 
-  def element_size(histogram, key)
-    (((histogram[key] / histogram.map{|k,v| histogram[k]}.sum.to_f) * 100) + 5).to_i
+  def element_size(val, max)
+   (val / (max / 2.0)) * 100
   end
   
-  def element_heat(histogram, _size)
-    sprintf("%02x" % (255 - (_size * 10)))
+  def element_heat(val, max)
+    sprintf("%02x" % (200 - ((200.0 / max) * val)))
   end
 
 end
